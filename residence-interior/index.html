@@ -319,6 +319,51 @@
     .modal-actions{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 16px; border-top:1px solid var(--line); background:#fafafa; }
     .icon-btn{ appearance:none; border:1px solid var(--line); background:#fff; border-radius:10px; padding:10px 12px; cursor:pointer; display:inline-flex; align-items:center; gap:8px; }
     .icon-btn svg{ width:20px; height:20px; }
+
+    /* ===== Commercial Section ===== */
+    .commercial-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(24px, 4vw, 48px);
+      align-items: center;
+    }
+    .commercial-content ul {
+      list-style: none;
+      padding: 0;
+      margin: 24px 0 0;
+    }
+    .commercial-content li {
+      margin-bottom: 12px;
+      padding-left: 20px;
+      position: relative;
+      color: var(--muted);
+    }
+    .commercial-content li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--brand);
+      font-weight: bold;
+    }
+    .commercial-image {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-1);
+    }
+    .commercial-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      z-index: 0;
+    }
+
+    @media (max-width: 900px) {
+      .commercial-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -366,7 +411,6 @@
         <h1>Beautiful home interiors, delivered fast and built to last.</h1>
         <p>Transparent pricing • Senior designers • Factory-finish quality • End-to-end project delivery</p>
         <div class="badges" role="list" aria-label="Key promises">
-          <!-- FIX: proper class for the first badge so the border shows -->
           <div class="badge">No hidden cost</div>
           <div class="badge">45-day delivery</div>
           <div class="badge">10-year warranty</div>
@@ -415,7 +459,6 @@
             <div class="price">From ₹4.80L</div>
           </figure>
         </div>
-        <!-- Clickable next arrow on mobile -->
         <button class="pk-next" id="pkNext" aria-label="Next package"></button>
       </div>
     </div>
@@ -580,18 +623,21 @@
   <div class="divider" aria-hidden="true"></div>
 
   <!-- ===== Commercial Spaces, Office Interiors & Architecture ===== -->
-  <section id="commercial-spaces" class="reveal" aria-label="Commercial spaces, Office interiors & Architecture"
-    style="position:relative;min-height:70vh;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;">
-    <!-- Entire section is clickable: this anchor sits on top -->
-    <a href="https://www.obliqassociates.com/" style="position:absolute;inset:0;z-index:4;" aria-label="Explore Commercial spaces, Office interiors & Architecture"></a>
-    <!-- Background image -->
-    <div style="position:absolute;inset:0;z-index:1;background:url('https://res.cloudinary.com/dvpmvben2/image/upload/v1756991919/lance-anderson-QdAAasrZhdk-unsplash-min_pvdo5i.jpg') center/cover no-repeat;"></div>
-    <!-- Dark overlay for text contrast -->
-    <div style="position:absolute;inset:0;z-index:2;background:linear-gradient(to bottom,rgba(0,0,0,.3),rgba(0,0,0,.6));"></div>
-    <!-- Content -->
-    <div class="container" style="position:relative;z-index:3;">
-      <h2 class="section-title" style="color:#fff;">Commercial & Office Spaces</h2>
-      <p class="section-kicker" style="color:rgba(255,255,255,.92);">Architecture, interiors & workplace solutions</p>
+  <section id="commercial-spaces" class="reveal" aria-label="Commercial spaces, Office interiors & Architecture">
+    <div class="container commercial-grid">
+      <div class="commercial-content">
+        <h2 class="section-title">Commercial & Office Spaces</h2>
+        <p class="section-kicker">Architecture, interiors & workplace solutions</p>
+        <ul>
+          <li>Energy-efficient office layouts reducing operational costs</li>
+          <li>Biophilic design enhancing employee wellbeing and productivity</li>
+          <li>LEED-certified commercial infrastructure for long-term value</li>
+        </ul>
+        <a class="btn" href="https://www.obliqassociates.com" target="_blank" style="margin-top:16px">Explore More</a>
+      </div>
+      <div class="commercial-image">
+        <img src="https://res.cloudinary.com/dvpmvben2/image/upload/v1756991919/lance-anderson-QdAAasrZhdk-unsplash-min_pvdo5i.jpg" alt="Sustainable commercial office space" loading="lazy" />
+      </div>
     </div>
   </section>
 
@@ -653,7 +699,6 @@
     <div class="container">
       <h2 class="section-title">Get a free consultation</h2>
       <div class="calc">
-        <!-- Email trigger (OTP removed) -->
         <form class="card" id="consultForm">
           <div class="grid-2">
             <div>
