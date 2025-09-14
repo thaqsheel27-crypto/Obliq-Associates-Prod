@@ -87,12 +87,39 @@
   .btn.primary{background:linear-gradient(90deg, rgba(42,157,143,.14), rgba(233,196,106,.14)); border-color:rgba(42,157,143,.35)}
 
   /* Hero */
-  .hero{padding:clamp(28px,4vw,48px) 0; background:
-    radial-gradient(900px 520px at 100% 0, rgba(231,111,81,.08), transparent 60%),
-    radial-gradient(800px 520px at 0 0, rgba(42,157,143,.10), transparent 55%)}
-  .hero-grid{display:grid; grid-template-columns:1fr; gap:clamp(12px,2.5vw,22px); align-items:center}
-  .hero h1{font-size:var(--h1); margin:0 0 6px}
-  .hero p.lead{font-size:var(--lead); color:var(--muted); margin:0}
+  .hero{
+    padding:clamp(28px,4vw,48px) 0;
+    background-image: url('https://res.cloudinary.com/dvpmvben2/image/upload/v1757855216/anders-jilden-Sc5RKXLBjGg-unsplash_b4ylhl.webp');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    color: #ffffff;
+    min-height: 80vh;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  .hero-grid{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(12px,2.5vw,22px);
+    min-height: 80vh;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .hero h1{font-size:var(--h1); margin:0 0 6px; font-weight: 800;}
+  .hero p.lead{font-size:var(--lead); color:#e5e7eb; margin:0 0 16px; font-weight: 400;}
 
   /* Sections */
   .section{padding:clamp(40px,6vw,72px) 0}
@@ -227,8 +254,8 @@
   <section class="hero">
     <div class="container hero-grid">
       <div>
-        <h1>Designing workplaces that work—for people, business & planet.</h1>
-        <p class="lead">OBLIQ ASSOCIATES is a Bengaluru-based architecture firm focused on office, commercial infrastructure and interiors. We blend human-centered design with sustainability to create spaces that boost productivity and wellbeing.</p>
+        <h1>We design enduring spaces for ambitious teams.</h1>
+        <p class="lead">An architecture firm from Bengaluru crafting high-performance offices, commercial infrastructure, and interiors that elevate culture, wellness, and outcomes.</p>
         <a class="btn primary" href="contact.html">Start a Project</a>
       </div>
     </div>
