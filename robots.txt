@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Main site sitemap
+Sitemap: https://www.obliqassociates.com/sitemap.xml
+
+# Residence Interior microsite sitemap
+Sitemap: https://www.obliqassociates.com/residence-interior/sitemap.xml
