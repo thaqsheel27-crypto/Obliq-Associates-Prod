@@ -19,21 +19,19 @@
     --radius:18px; --blur:14px; --shadow-1:0 10px 30px rgba(2,8,23,.10); --shadow-2:0 18px 55px rgba(2,8,23,.14);
     --h1:clamp(1.9rem,1.2rem+2.6vw,3rem); --h2:clamp(1.5rem,1rem+2vw,2.2rem); --lead:clamp(1rem,.9rem+.5vw,1.2rem);
     --navy:#0f172a;
-    --splineScroll: 140vh;              /* desktop scroll length while sticky */
-    --stickTop: clamp(16px, 6vh, 72px); /* sticky offset for roadmap image */
+    --splineScroll: 140vh;
+    --stickTop: clamp(16px, 6vh, 72px);
   }
 
-  /* ===== Base ===== */
-  *{box-sizing:border-box}
-  html, body { height: 100%; width: 100%; }
+  /* ===== Page frame to pin footer to bottom ===== */
+  html, body { height: 100%; }
   body{
-    margin:0;
+    margin:0; display:flex; flex-direction:column; min-height:100vh;
     font:400 1rem/1.6 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;
-    color:var(--stone);
-    background:var(--paper);
-    overflow-x:hidden; /* kill accidental side-scroll */
+    color:var(--stone); background:var(--paper); overflow-x:hidden;
   }
-  img, video, canvas { max-width:100%; height:auto; display:block; } /* safety */
+  main{ flex:1 0 auto; }   /* pushes footer down */
+  img, video, canvas { max-width:100%; height:auto; display:block; }
   a{color:inherit; text-decoration:none}
   .container{width:min(1200px,92%); margin-inline:auto}
 
@@ -55,49 +53,19 @@
   }
 
   /* ===== Spline section ===== */
-  .spline-section{
-    position: relative;
-    margin: 0;
-    background: var(--navy);
-    width: 100%;
-  }
-
-  /* Desktop sticky */
-  .spline-sticky{
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    background: var(--navy);
-    z-index: 0;
-    overflow: hidden;
-  }
-  canvas{
-    width: 100%;
-    height: 100%;
-    background: var(--navy);
-  }
-
+  .spline-section{ position: relative; margin: 0; background: var(--navy); width: 100%; }
+  .spline-sticky{ position: sticky; top: 0; height: 100vh; background: var(--navy); z-index: 0; overflow: hidden; }
+  canvas{ width: 100%; height: 100%; background: var(--navy); }
   .spline-spacer{ height: var(--splineScroll); background: var(--navy); }
 
-  /* ===== Mobile override ===== */
   @media (max-width: 960px){
-    .spline-sticky{
-      position: relative; /* No sticky on mobile */
-      top: auto;
-      height: 100dvh; /* Modern stable viewport height */
-      height: -webkit-fill-available; /* iOS fallback */
-      min-height: 100vh; /* Fallback */
-      padding-left: env(safe-area-inset-left);
-      padding-right: env(safe-area-inset-right);
-      pointer-events: none !important; /* Pass events through */
-    }
-    canvas {
-      pointer-events: none !important; /* Disable interaction on mobile to allow page scroll */
-    }
-    .spline-spacer{ height: 12px; } /* Tiny gap for section separation */
+    .spline-sticky{ position: relative; top:auto; height:100dvh; height:-webkit-fill-available; min-height:100vh;
+      padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); pointer-events:none !important; }
+    canvas{ pointer-events:none !important; }
+    .spline-spacer{ height:12px; }
   }
 
-  /* ===== Hero ===== */
+  /* ===== Hero & sections ===== */
   .hero{padding:clamp(36px,5vw,64px) 0; background:
     radial-gradient(900px 520px at 100% 0, rgba(231,111,81,.08), transparent 60%),
     radial-gradient(800px 520px at 0 0, rgba(42,157,143,.10), transparent 55%)}
@@ -108,7 +76,6 @@
   h1{font-size:var(--h1); margin:.1em 0 .2em} .lead{font-size:var(--lead); color:var(--muted); margin:0 0 18px}
   .hero-card{border-radius:var(--radius); background:#fff; box-shadow:var(--shadow-2); border:1px solid var(--line); padding:18px}
 
-  /* ===== Sections ===== */
   .section{padding:clamp(48px,7vw,88px) 0}
   .eyebrow{display:inline-block; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); font-weight:700; font-size:.76rem; margin-bottom:8px}
   .section h2{font-size:var(--h2); margin:.2em 0 .5em}
@@ -129,38 +96,23 @@
   .dot{width:12px; height:12px; border-radius:50%; background:var(--brand)}
   .line{width:2px; background:linear-gradient(180deg,var(--brand),transparent); height:100%; margin:0 auto; border-radius:2px}
 
-  /* ===== Roadmap with sticky image (desktop) ===== */
-  .roadmap-grid{
-    display:grid;
-    grid-template-columns: 1.1fr .9fr;
-    gap: clamp(18px, 3.5vw, 36px);
-    align-items: start;
-  }
-  .roadmap-figure{
-    position: sticky;
-    top: var(--stickTop);
-    align-self: start;
-    height: min(72vh, 560px);
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: var(--shadow-1);
-    border:1px solid var(--line);
-    background:#fff;
-  }
-  .roadmap-figure img{
-    display:block;
-    width:100%;
-    height:100%;
-    object-fit: cover;
-    object-position: center 12%; /* nudge towards top */
-  }
-
-  /* Mobile: no sticky image */
+  /* ===== Roadmap sticky image ===== */
+  .roadmap-grid{ display:grid; grid-template-columns: 1.1fr .9fr; gap: clamp(18px, 3.5vw, 36px); align-items: start; }
+  .roadmap-figure{ position: sticky; top: var(--stickTop); align-self: start; height: min(72vh, 560px);
+    border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-1); border:1px solid var(--line); background:#fff; }
+  .roadmap-figure img{ width:100%; height:100%; object-fit: cover; object-position: center 12%; }
   @media (max-width: 960px){
     .roadmap-grid{ grid-template-columns: 1fr; }
-    .roadmap-figure{ position: relative; top: auto; height: 360px; }
+    .roadmap-figure{ position: relative; top:auto; height: 360px; }
     .roadmap-figure img{ object-position: center 20%; }
   }
+
+  /* ===== FAQ (now above footer) ===== */
+  .faq{ max-width:1000px; margin:80px auto; padding:0 16px; color:#0b1324; }
+  .faq h2{ font-size:clamp(1.6rem,1rem+1.6vw,2.2rem); margin-bottom:16px; }
+  .faq details{ border:1px solid #e5e7eb; border-radius:12px; padding:14px 18px; margin:10px 0; background:#fff; }
+  .faq summary{ cursor:pointer; font-weight:600; outline:none; color:#0b1324; }
+  .faq details > div{ color:#0b1324; margin-top:10px; line-height:1.6; }
 
   /* ===== Footer ===== */
   .btn{display:inline-flex; align-items:center; gap:10px; padding:12px 18px; border-radius:12px; border:1px solid var(--line); background:#fff; font-weight:700; cursor:pointer; box-shadow:var(--shadow-1)}
@@ -173,7 +125,9 @@
   @media (max-width:960px){ .f-grid{grid-template-columns:1fr 1fr} }
   @media (max-width:640px){ .f-grid{grid-template-columns:1fr} }
 </style>
+
 <link rel="stylesheet" href="assets/updater.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is LEED and how does it apply to offices?", "acceptedAnswer": {"@type": "Answer", "text": "LEED is a green building rating system that evaluates energy, water, materials and indoor environmental quality. We align envelopes, HVAC and lighting with LEED credits to reduce energy use and operational cost."}}, {"@type": "Question", "name": "What is WELL and how does it help workplace health?", "acceptedAnswer": {"@type": "Answer", "text": "WELL focuses on human health and wellbeing: air, water, light, comfort, movement and mind. We design healthy materials, high ventilation rates and daylight access to boost productivity."}}, {"@type": "Question", "name": "Do you provide post-occupancy performance tracking?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. We integrate sensors and BMS data to track energy, IAQ and occupancy use to keep performance on target."}}, {"@type": "Question", "name": "Can you retrofit existing offices for sustainability?", "acceptedAnswer": {"@type": "Answer", "text": "Absolutely—lighting upgrades, high-efficiency HVAC, controls and material swaps deliver quick ROI without major disruption."}}]}</script>
 </head>
 <body>
   <!-- Header -->
@@ -186,98 +140,118 @@
       <button class="menu-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
       <nav class="nav-links header--transparent" aria-label="Primary">
         <a href="index.html">Home</a>
-        <a href="about.html">About</a>
         <a href="projects.html">Projects</a>
         <a href="sustainability.html" class="active" aria-current="page">Sustainability</a>
+        <a href="about.html">About</a>
         <a href="contact.html">Contact</a>
       </nav>
     </div>
   </header>
 
-  <!-- Spline (mobile = non-sticky full-bleed; desktop = sticky) -->
-  <section class="spline-section">
-    <div class="spline-sticky">
-      <canvas id="canvas3d"></canvas>
-    </div>
-    <div class="spline-spacer"></div>
-  </section>
-
-  <!-- Hero -->
-  <section class="hero">
-    <div class="container hero-grid">
-      <div>
-        <span class="pill">Net-Zero · Healthy · Circular</span>
-        <h1>Sustainability that performs—for people and planet.</h1>
-        <p class="lead">We design offices, commercial infrastructure and interiors with lower carbon, higher efficiency and human wellbeing at the core.</p>
-        <a class="btn primary" href="contact.html">Discuss a Green Upgrade</a>
+  <main>
+    <!-- Spline -->
+    <section class="spline-section">
+      <div class="spline-sticky">
+        <canvas id="canvas3d"></canvas>
       </div>
-      <aside class="hero-card" aria-label="Performance snapshot">
-        <strong>Typical Performance Uplift</strong>
-        <div class="progress">
-          <div><small>Operational Energy ↓ 25–40%</small></div>
-          <div><small>Indoor Air Quality (PM2.5) ↑ 50–70%</small></div>
-          <div><small>Water Use ↓ 30–50%</small></div>
+      <div class="spline-spacer"></div>
+    </section>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="pill">Net-Zero · Healthy · Circular</span>
+          <h1>Sustainability that performs—for people and planet.</h1>
+          <p class="lead">We design offices, commercial infrastructure and interiors with lower carbon, higher efficiency and human wellbeing at the core.</p>
+          <a class="btn primary" href="contact.html">Discuss a Green Upgrade</a>
         </div>
-      </aside>
-    </div>
-  </section>
-
-  <!-- Pillars -->
-  <section class="section container">
-    <span class="eyebrow">Our Pillars</span>
-    <h2>Energy · Materials · Water · Wellbeing</h2>
-    <div class="cards">
-      <article class="card"><h3>Energy & Daylight</h3><p>Passive design, high-efficiency HVAC, controls and daylight optimization.</p></article>
-      <article class="card"><h3>Materials & Circularity</h3><p>Low-VOC, EPD/HPD products, recycled content and design for disassembly.</p></article>
-      <article class="card"><h3>Water & Ecology</h3><p>Low-flow fixtures, rainwater harvesting, condensate reuse, native planting.</p></article>
-      <article class="card"><h3>Health & Wellbeing</h3><p>Biophilic layers, acoustic comfort, thermal control and circadian lighting.</p></article>
-    </div>
-  </section>
-
-  <!-- Impact -->
-  <section class="section container">
-    <span class="eyebrow">Impact</span>
-    <h2>Measured outcomes</h2>
-    <div class="metrics">
-      <div class="metric"><div class="n">38</div><div class="t">Avg Energy Reduction %</div></div>
-      <div class="metric"><div class="n">46</div><div class="t">Water Savings %</div></div>
-      <div class="metric"><div class="n">72</div><div class="t">Low-VOC Materials %</div></div>
-      <div class="metric"><div class="n">15-20%</div><div class="t">Potential Cost Savings</div></div>
-    </div>
-  </section>
-
-  <!-- Roadmap -->
-  <section class="section container" id="roadmap">
-    <span class="eyebrow">Roadmap</span>
-    <h2>From audit to net-zero</h2>
-    <div class="roadmap-grid">
-      <div>
-        <div class="timeline">
-          <div class="step"><div><div class="dot"></div><div class="line" style="height:70%"></div></div><div><h3>01 — Baseline</h3><p>Energy/water audit, IAQ testing, carbon model & quick wins.</p></div></div>
-          <div class="step"><div><div class="dot"></div><div class="line" style="height:70%"></div></div><div><h3>02 — Strategy</h3><p>Passive measures, system upgrades, materials policy & certification path.</p></div></div>
-          <div class="step"><div><div class="dot"></div><div class="line" style="height:70%"></div></div><div><h3>03 — Delivery</h3><p>Detailed design, procurement guidance, QAQC & commissioning.</p></div></div>
-          <div class="step"><div><div class="dot"></div></div><div><h3>04 — Verify & Improve</h3><p>POE, analytics dashboards, occupant feedback & continuous tuning.</p></div></div>
-        </div>
+        <aside class="hero-card" aria-label="Performance snapshot">
+          <strong>Typical Performance Uplift</strong>
+          <div class="progress">
+            <div><small>Operational Energy ↓ 25–40%</small></div>
+            <div><small>Indoor Air Quality (PM2.5) ↑ 50–70%</small></div>
+            <div><small>Water Use ↓ 30–50%</small></div>
+          </div>
+        </aside>
       </div>
-      <figure class="roadmap-figure" aria-label="Roadmap illustration">
-        <img
-          src="https://res.cloudinary.com/dvpmvben2/image/upload/v1757340457/dilip-poddar-7_Ght34z7sE-unsplash_vvjxuq.webp"
-          alt="Calm green corridor with plants and daylight — sustainability roadmap visual"
-          loading="lazy"
-          width="1200"
-          height="800"
-          decoding="async"
-        />
-      </figure>
-    </div>
-  </section>
+    </section>
 
-  <!-- Footer -->
+    <!-- Pillars -->
+    <section class="section container">
+      <span class="eyebrow">Our Pillars</span>
+      <h2>Energy · Materials · Water · Wellbeing</h2>
+      <div class="cards">
+        <article class="card"><h3>Energy & Daylight</h3><p>Passive design, high-efficiency HVAC, controls and daylight optimization.</p></article>
+        <article class="card"><h3>Materials & Circularity</h3><p>Low-VOC, EPD/HPD products, recycled content and design for disassembly.</p></article>
+        <article class="card"><h3>Water & Ecology</h3><p>Low-flow fixtures, rainwater harvesting, condensate reuse, native planting.</p></article>
+        <article class="card"><h3>Health & Wellbeing</h3><p>Biophilic layers, acoustic comfort, thermal control and circadian lighting.</p></article>
+      </div>
+    </section>
+
+    <!-- Impact -->
+    <section class="section container">
+      <span class="eyebrow">Impact</span>
+      <h2>Measured outcomes</h2>
+      <div class="metrics">
+        <div class="metric"><div class="n">38</div><div class="t">Avg Energy Reduction %</div></div>
+        <div class="metric"><div class="n">46</div><div class="t">Water Savings %</div></div>
+        <div class="metric"><div class="n">72</div><div class="t">Low-VOC Materials %</div></div>
+        <div class="metric"><div class="n">15-20%</div><div class="t">Potential Cost Savings</div></div>
+      </div>
+    </section>
+
+    <!-- Roadmap -->
+    <section class="section container" id="roadmap">
+      <span class="eyebrow">Roadmap</span>
+      <h2>From audit to net-zero</h2>
+      <div class="roadmap-grid">
+        <div>
+          <div class="timeline">
+            <div class="step"><div><div class="dot"></div><div class="line" style="height:70%"></div></div><div><h3>01 — Baseline</h3><p>Energy/water audit, IAQ testing, carbon model & quick wins.</p></div></div>
+            <div class="step"><div><div class="dot"></div><div class="line" style="height:70%"></div></div><div><h3>02 — Strategy</h3><p>Passive measures, system upgrades, materials policy & certification path.</p></div></div>
+            <div class="step"><div><div class="dot"></div><div class="line" style="height:70%"></div></div><div><h3>03 — Delivery</h3><p>Detailed design, procurement guidance, QAQC & commissioning.</p></div></div>
+            <div class="step"><div><div class="dot"></div></div><div><h3>04 — Verify & Improve</h3><p>POE, analytics dashboards, occupant feedback & continuous tuning.</p></div></div>
+          </div>
+        </div>
+        <figure class="roadmap-figure" aria-label="Roadmap illustration">
+          <img
+            src="https://res.cloudinary.com/dvpmvben2/image/upload/v1757340457/dilip-poddar-7_Ght34z7sE-unsplash_vvjxuq.webp"
+            alt="Calm green corridor with plants and daylight — sustainability roadmap visual"
+            loading="lazy" width="1200" height="800" decoding="async"
+          />
+        </figure>
+      </div>
+    </section>
+
+    <!-- FAQ (moved here, takes the old footer position visually) -->
+    <section class="faq" aria-label="FAQs">
+      <h2>Frequently Asked Questions</h2>
+      <details>
+        <summary>What is LEED and how does it apply to offices?</summary>
+        <div>LEED is a green building rating system that evaluates energy, water, materials and indoor environmental quality. We align envelopes, HVAC and lighting with LEED credits to reduce energy use and operational cost.</div>
+      </details>
+      <details>
+        <summary>What is WELL and how does it help workplace health?</summary>
+        <div>WELL focuses on human health and wellbeing: air, water, light, comfort, movement and mind. We design healthy materials, high ventilation rates and daylight access to boost productivity.</div>
+      </details>
+      <details>
+        <summary>Do you provide post-occupancy performance tracking?</summary>
+        <div>Yes. We integrate sensors and BMS data to track energy, IAQ and occupancy use to keep performance on target.</div>
+      </details>
+      <details>
+        <summary>Can you retrofit existing offices for sustainability?</summary>
+        <div>Absolutely—lighting upgrades, high-efficiency HVAC, controls and material swaps deliver quick ROI without major disruption.</div>
+      </details>
+    </section>
+  </main>
+
+  <!-- Footer (now always at the bottom) -->
   <footer class="footer">
     <div class="container f-grid">
       <div><div class="f-title">OBLIQ ASSOCIATES</div><p>Architecture for office, commercial infrastructure & interiors.</p><p>Bengaluru, Karnataka, India</p></div>
       <div><div class="f-title">Company</div><p><a href="about.html">About</a></p><p><a href="projects.html">Projects</a></p><p><a href="sustainability.html">Sustainability</a></p><p><a href="contact.html">Contact</a></p></div>
-      <div><div class="f-title">Connect</div><p><a href="mailto:info@obliqassociates.com">info@obliqassociates.com</a></p><p><a href="https://www.linkedin.com/company/obliq-associates/" target="_blank" rel="noopener">LinkedIn</a></p><p><a href="https://www.instagram.com/obliqassociates/#" target="_blank" rel="noopener">Instagram</a></p></div>
+      <div><div class="f-title">Connect</div><p><a href="mailto:thaqsheel.vincent@obliqassociates.com">thaqsheel.vincent@obliqassociates.com</a></p><p><a href="https://www.linkedin.com/company/obliq-associates/" target="_blank" rel="noopener">LinkedIn</a></p><p><a href="https://www.instagram.com/obliqassociates/#" target="_blank" rel="noopener">Instagram</a></p></div>
       <div><div class="f-title">Start</div><a class="btn primary" href="contact.html">Book a Consultation</a></div>
     </div>
     <div class="container copyright">© 2025 OBLIQ ASSOCIATES. All rights reserved.</div>
@@ -289,7 +263,7 @@
   const links = document.querySelector('.nav-links');
   toggle?.addEventListener('click', () => links.classList.toggle('open'));
 
-  // (Optional) Reveal hook
+  // Reveal hook
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
   }, { threshold: .18 });
@@ -305,12 +279,11 @@
     function updateZoomAndSize() {
       app.setSize(canvas.clientWidth, canvas.clientHeight);
       if (window.innerWidth <= 960) {
-        app.setZoom(0.30); // Zoom out on mobile; adjust value as needed (0.5 = 50% zoom)
+        app.setZoom(0.30);
       } else {
-        app.setZoom(1); // Default on desktop
+        app.setZoom(1);
       }
     }
-
     updateZoomAndSize();
     window.addEventListener('resize', updateZoomAndSize);
   })();
