@@ -467,22 +467,67 @@
   </header>
 
   <!-- ===== Hero ===== -->
-  <section class="hero reveal" id="top" aria-label="ury Home Interior">
-    <div class="container">
-      <div class="stack">
-        <h1>Beautiful home interiors, delivered fast and built to last.</h1>
-        <p>Transparent pricing • Senior designers • Factory-finish quality • End-to-end project delivery</p>
-        <div class="badges" role="list" aria-label="Key promises">
-          <div class="badge">No hidden cost</div>
-          <div class="badge">45-day delivery</div>
-          <div class="badge">10-year warranty</div>
-          <div class="badge">Factory finish</div>
-        </div>
+  <!-- ===== Hero (revised) ===== -->
+<style>
+  /* Hero height fix: fallback 100vh + stable 100svh for mobile address bar */
+  .hero,
+  .reel {
+    min-height: 100vh;   /* fallback for older browsers */
+    min-height: 100svh;  /* stable small viewport height on mobile */
+    position: relative;
+    color: #fff;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    isolation: isolate;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0; z-index:0;
+    background:url('https://res.cloudinary.com/dvpmvben2/image/upload/v1757436581/kam-idris-vqMQN9zImG4-unsplash_kkspqs.webp') center/cover no-repeat;
+    filter:brightness(.82);
+  }
+  .hero::after{
+    content:"";
+    position:absolute; inset:0; z-index:1;
+    background:linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,.55));
+  }
+  .hero .stack{
+    display:grid; gap:16px;
+    padding:120px 0 80px; 
+    position:relative; z-index:2;
+  }
+  @media (max-height: 700px){
+    .hero .stack{ padding:80px 0 40px; }
+  }
+  .hero h1{ font-size:clamp(28px,4vw,56px); line-height:1.15; margin:0; }
+  .hero p{ font-size:clamp(14px,2.2vw,18px); opacity:.95; margin:0; }
+  .badges{ display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:22px; }
+  .badge{
+    background:rgba(255,255,255,.22);
+    border:1px solid #ffffffaa;
+    color:#fff;
+    padding:10px 14px;
+    border-radius:999px;
+    font-weight:600;
+    backdrop-filter:blur(6px);
+  }
+</style>
+
+<section class="hero reveal" id="top" aria-label="Luxury Home Interior">
+  <div class="container">
+    <div class="stack">
+      <h1>Beautiful home interiors, delivered fast and built to last.</h1>
+      <p>Transparent pricing • Senior designers • Factory-finish quality • End-to-end project delivery</p>
+      <div class="badges" role="list" aria-label="Key promises">
+        <div class="badge">No hidden cost</div>
+        <div class="badge">45-day delivery</div>
+        <div class="badge">10-year warranty</div>
+        <div class="badge">Factory finish</div>
       </div>
     </div>
-  </section>
-
-  <div class="divider" aria-hidden="true"></div>
+  </div>
+</section>
 
   <!-- ===== Video Message Reel ===== -->
   <section class="reel reveal" aria-label="Intro video messages" id="reel">
@@ -957,6 +1002,44 @@
     const menuBtn = document.getElementById('menuBtn');
     const mobilePanel = document.getElementById('mobilePanel');
     menuBtn?.addEventListener('click', ()=>{
+      // --- Mobile panel link behavior: scroll & close ---
+const closeMobilePanel = () => {
+  if (!mobilePanel) return;
+  mobilePanel.style.display = 'none';
+  mobilePanel.hidden = true;
+  menuBtn?.setAttribute('aria-expanded', 'false');
+};
+
+// Close panel when clicking any link inside it; smooth-scroll for hash links
+mobilePanel?.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', (e) => {
+    const href = a.getAttribute('href') || '';
+    if (href.startsWith('#')) {
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+    closeMobilePanel();
+  });
+});
+
+// Optional: close panel if user taps outside
+document.addEventListener('click', (e) => {
+  const withinMenu = e.target.closest('#mobilePanel') || e.target.closest('#menuBtn');
+  if (!withinMenu && window.getComputedStyle(mobilePanel).display === 'block') {
+    closeMobilePanel();
+  }
+});
+
+// Bonus: close panel on Escape
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && window.getComputedStyle(mobilePanel).display === 'block') {
+    closeMobilePanel();
+  }
+});
+
       const open = mobilePanel.style.display === 'block';
       mobilePanel.style.display = open ? 'none' : 'block';
       mobilePanel.hidden = open; menuBtn.setAttribute('aria-expanded', String(!open));
